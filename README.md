@@ -24,24 +24,31 @@ A production-ready virtual assistant web application with voice recognition, AI-
 - Cloudinary for image uploads
 - Gemini API integration for AI responses
 
-**Diagram:**
+
+**Flow Chart (Mermaid):**
+
+```mermaid
+flowchart TD
+    A[User] -->|Sign Up/Sign In| B(React Frontend)
+    B -->|Auth API| C(Express Backend)
+    C -->|Validate & JWT| D[(MongoDB)]
+    B -->|Customize Assistant| C
+    C -->|Upload Image| E[Cloudinary]
+    B -->|Voice Command| C
+    C -->|AI Response| F[Gemini API]
+    F -->|JSON Response| C
+    C -->|Save History| D
+    C -->|Return Data| B
+    B -->|Text-to-Speech| G[Web Speech API]
+    B -->|Special Actions| H[Open Apps/Search]
 ```
-[User] <-> [React Frontend] <-> [Express Backend] <-> [MongoDB]
-                                      |
-                                 [Gemini API]
-                                      |
-                                 [Cloudinary]
-```
 
----
-
-## Flow Diagram
-
-1. **User Registration/Login**
-   - User signs up/signs in via frontend forms
-   - Backend validates, hashes password, issues JWT cookie
-2. **Assistant Customization**
-   - User selects/uploads image, sets assistant name
+**Stepwise Flow:**
+1. User registers/logs in (frontend → backend → MongoDB)
+2. User customizes assistant (image/name → backend → Cloudinary/MongoDB)
+3. User speaks command (frontend → backend → Gemini API)
+4. Backend parses AI response, saves history, returns to frontend
+5. Frontend speaks response, opens apps/searches as needed
    - Image uploaded to Cloudinary (if custom)
    - Data saved in MongoDB
 3. **Voice Interaction**
